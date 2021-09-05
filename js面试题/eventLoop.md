@@ -112,25 +112,21 @@ sleep(10000000)
 
 函数调用形成了一个由若干帧组成的栈。
 
-`````
+```javascript
 function foo(b) {
+  let a = 10
 
-  let a = 10;
-
-  return a + b + 11;
-
+  return a + b + 11
 }
 
 function bar(x) {
+  let y = 3
 
-  let y = 3;
-
-  return foo(x * y);
-
+  return foo(x * y)
 }
 
-console.log(bar(7)); // 返回 42```
-````
+console.log(bar(7)) // 返回 42
+```
 
 当调用 `bar` 时，第一个帧被创建并压入栈中，帧中包含了 `bar` 的参数和局部变量。 当 `bar` 调用 `foo` 时，第二个帧被创建并被压入栈中，放在第一个帧之上，帧中包含 `foo` 的参数和局部变量。当 `foo` 执行完毕然后返回时，第二个帧就被弹出栈（剩下 `bar` 函数的调用帧 ）。当 `bar` 也执行完毕然后返回时，第一个帧也被弹出，栈就被清空了。
 
@@ -470,4 +466,7 @@ count();
 [http://www.ruanyifeng.com/blog/2013/10/event_loop.html](http://www.ruanyifeng.com/blog/2013/10/event_loop.html)
 
 [https://juejin.cn/post/6844903512845860872](https://juejin.cn/post/6844903512845860872)
-`````
+
+```
+
+```
