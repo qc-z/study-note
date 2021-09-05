@@ -1,14 +1,14 @@
-# js中的事件循环(event loop)
+# js 中的事件循环(event loop)
 
-## js中的eventloop
+## js 中的 eventloop
 
 #### 大致流程
 
-简单的说，事件循环（eventLoop）是单线程的JavaScript在处理异步事件时进行的一种循环过程，具体来讲，对于异步事件它会先加入到事件队列中挂起，等主线程空闲时会去执行事件队列中的事件。
+简单的说，事件循环（eventLoop）是单线程的 JavaScript 在处理异步事件时进行的一种循环过程，具体来讲，对于异步事件它会先加入到事件队列中挂起，等主线程空闲时会去执行事件队列中的事件。
 
-**主线程任务——>微任务——>宏任务**  如果宏任务里还有微任就继续执行宏任务里的微任务，如果宏任务中的微任务中还有宏任务就在依次进行
+**主线程任务——>微任务——>宏任务** 如果宏任务里还有微任就继续执行宏任务里的微任务，如果宏任务中的微任务中还有宏任务就在依次进行
 
-**主线程任务——>微任务——>宏任务——>宏任务里的微任务——>宏任务里的微任务中的宏任务——>直到任务全部完成**  我的理解是在同级下，微任务要优先于宏任务执行
+**主线程任务——>微任务——>宏任务——>宏任务里的微任务——>宏任务里的微任务中的宏任务——>直到任务全部完成** 我的理解是在同级下，微任务要优先于宏任务执行
 
 在同一轮任务队列中，同一个微任务产生的微任务会放在这一轮微任务的后面，产生的宏任务会放在这一轮的宏任务后面
 
@@ -18,13 +18,13 @@
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae5dbcc6cb594cdfa5b1b10bcd2ad1e1~tplv-k3u1fbpfcp-zoom-1.image)
 
-- 同步和异步任务分别进入不同的执行"场所"，同步的进入主线程，异步的进入Event Table并注册函数。
+- 同步和异步任务分别进入不同的执行"场所"，同步的进入主线程，异步的进入 Event Table 并注册函数。
 
-- 当指定的事情完成时，Event Table会将这个函数移入Event Queue。
+- 当指定的事情完成时，Event Table 会将这个函数移入 Event Queue。
 
-- 主线程内的任务执行完毕为空，会去Event Queue读取对应的函数，进入主线程执行。
+- 主线程内的任务执行完毕为空，会去 Event Queue 读取对应的函数，进入主线程执行。
 
-- 上述过程会不断重复，也就是常说的Event Loop(事件循环)
+- 上述过程会不断重复，也就是常说的 Event Loop(事件循环)
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/638f9d513a6b499b8d108362b0b9b664~tplv-k3u1fbpfcp-zoom-1.image)
 
@@ -34,15 +34,15 @@
 
 这很重要，因为它确保了微任务之间的应用程序环境基本相同（没有鼠标坐标更改，没有新的网络数据等）。
 
-如果我们想要异步执行（在当前代码之后）一个函数，但是要在更改被渲染或新事件被处理之前执行，那么我们可以使用 **queueMicrotask**  来对其进行安排（schedule）
+如果我们想要异步执行（在当前代码之后）一个函数，但是要在更改被渲染或新事件被处理之前执行，那么我们可以使用 **queueMicrotask** 来对其进行安排（schedule）
 
 ## 概念名词
 
 ### 主线程
 
-所有的同步任务都是在主线程里执行的，异步任务可能会在macrotask或者microtask里面
+所有的同步任务都是在主线程里执行的，异步任务可能会在 macrotask 或者 microtask 里面
 
-**同步任务：**  指的是在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。**异步任务：**  指的是不进入主线程，某个异步任务可以执行了，该任务才会进入主线程执行。
+**同步任务：** 指的是在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务。**异步任务：** 指的是不进入主线程，某个异步任务可以执行了，该任务才会进入主线程执行。
 
 ### 微任务(micro task)
 
@@ -54,7 +54,7 @@
 
 - process.nextTick(node)
 
-- mutationObserver(html5新特性)
+- mutationObserver(html5 新特性)
 
 ### 宏任务(macro task)
 
@@ -70,10 +70,9 @@
 
 - UI render
 
-**分析setTimeout** 
+**分析 setTimeout**
 
-> **`setTimeout(fn,0)`****的含义是，指定某个任务在主线程最早可得的空闲时间执行，意思就是不用再等多少秒了，只要主线程执行栈内的同步任务全部执行完成，栈为空就马上执行** 
-
+> **`setTimeout(fn,0)`\*\***的含义是，指定某个任务在主线程最早可得的空闲时间执行，意思就是不用再等多少秒了，只要主线程执行栈内的同步任务全部执行完成，栈为空就马上执行\*\*
 
 ```
 setTimeout(() => {
@@ -85,18 +84,17 @@ setTimeout(() => {
 sleep(10000000)
 ```
 
-
-乍一看其实差不多嘛，但我们把这段代码在chrome执行一下，却发现控制台执行`task()`需要的时间远远超过3秒，说好的延时三秒，为啥现在需要这么长时间啊？
+乍一看其实差不多嘛，但我们把这段代码在 chrome 执行一下，却发现控制台执行`task()`需要的时间远远超过 3 秒，说好的延时三秒，为啥现在需要这么长时间啊？
 
 这时候我们需要重新理解`setTimeout`的定义。我们先说上述代码是怎么执行的：
 
-- `task()`进入Event Table并注册,计时开始。
+- `task()`进入 Event Table 并注册,计时开始。
 
 - 执行`sleep`函数，很慢，非常慢，计时仍在继续。
 
-- 3秒到了，计时事件`timeout`完成，`task()`进入Event Queue，但是`sleep`也太慢了吧，还没执行完，只好等着。
+- 3 秒到了，计时事件`timeout`完成，`task()`进入 Event Queue，但是`sleep`也太慢了吧，还没执行完，只好等着。
 
-- `sleep`终于执行完了，`task()`终于从Event Queue进入了主线程执行。
+- `sleep`终于执行完了，`task()`终于从 Event Queue 进入了主线程执行。
 
 ### 运行时概念
 
@@ -108,14 +106,13 @@ sleep(10000000)
 
 > 对象被分配在堆中，堆是一个用来表示一大块（通常是非结构化的）内存区域的计算机术语。
 
-
 #### 栈(stack)
 
-后进先出 (lifo) last in first out （坐电梯🌰第一个进电梯的人最后一个出来，最后一个进电梯的人第一个出来！）
+后进先出 (lifo) last in first out （坐电梯 🌰 第一个进电梯的人最后一个出来，最后一个进电梯的人第一个出来！）
 
 函数调用形成了一个由若干帧组成的栈。
 
-````
+`````
 function foo(b) {
 
   let a = 10;
@@ -133,8 +130,7 @@ function bar(x) {
 }
 
 console.log(bar(7)); // 返回 42```
-```
-
+````
 
 当调用 `bar` 时，第一个帧被创建并压入栈中，帧中包含了 `bar` 的参数和局部变量。 当 `bar` 调用 `foo` 时，第二个帧被创建并被压入栈中，放在第一个帧之上，帧中包含 `foo` 的参数和局部变量。当 `foo` 执行完毕然后返回时，第二个帧就被弹出栈（剩下 `bar` 函数的调用帧 ）。当 `bar` 也执行完毕然后返回时，第一个帧也被弹出，栈就被清空了。
 
@@ -152,19 +148,19 @@ console.log(bar(7)); // 返回 42```
 
 #### 事件表格（event table）
 
-Event Table 可以理解成一张**事件->回调函数**  对应表
+Event Table 可以理解成一张**事件->回调函数** 对应表
 
-调用web apis来执行函数然后回调到事件队列中
+调用 web apis 来执行函数然后回调到事件队列中
 
-它就是用来存储 Js 中的异步事件 (request, setTimeout, IO等) 及其对应的回调函数的列表
+它就是用来存储 Js 中的异步事件 (request, setTimeout, IO 等) 及其对应的回调函数的列表
 
 #### Web APIs
 
-浏览器提供了多种异步的Web API，如DOM，times（计时器），AJAX等。
+浏览器提供了多种异步的 Web API，如 DOM，times（计时器），AJAX 等。
 
-当我们调用一个 Web API 时，如 setTimeout，setTimeout函数会被 push 调用栈顶然后执行，但是 setTimeout 的回调函数不会立即被 push 到调用栈顶，而是起一个计时器任务。当这个计时器结束时，该回调函数会被塞到任务队列（CallBack Queue）中。这个队列中的回调函数的调用就是由事件循环机制来控制的。
+当我们调用一个 Web API 时，如 setTimeout，setTimeout 函数会被 push 调用栈顶然后执行，但是 setTimeout 的回调函数不会立即被 push 到调用栈顶，而是起一个计时器任务。当这个计时器结束时，该回调函数会被塞到任务队列（CallBack Queue）中。这个队列中的回调函数的调用就是由事件循环机制来控制的。
 
-**理解: 调用任务时，并不会马上进入任务队列，而是先调用web提供的api，等待执行的结果才放进去任务队列** 
+**理解: 调用任务时，并不会马上进入任务队列，而是先调用 web 提供的 api，等待执行的结果才放进去任务队列**
 
 #### Web Workers
 
@@ -214,12 +210,11 @@ console.log('script end')
   // 新版输出(新版的chrome浏览器优化了,await变得更快了,输出为)
 
  // script start => async2 end => Promise => script end => async1 end => promise1 => promise2  => setTimeout
- 
- 
- // 旧版输出如下，但是请继续看完本文下面的注意那里，新版有改动
-// script start => async2 end => Promise => script end => promise1 => promise2 => **async1 end**  => setTimeout 
-```
 
+
+ // 旧版输出如下，但是请继续看完本文下面的注意那里，新版有改动
+// script start => async2 end => Promise => script end => promise1 => promise2 => **async1 end**  => setTimeout
+```
 
 但是这种做法其实是违法了规范的，当然规范也是可以更改的，这是 V8 团队的一个 [PR](https://link.juejin.cn/?target=https://github.com/tc39/ecma262/pull/1250#issue-197979338) ，目前新版打印已经修改。 知乎上也有相关讨论,可以看看 [www.zhihu.com/question/26…](https://link.juejin.cn/?target=https://www.zhihu.com/question/268007969)
 
@@ -245,7 +240,7 @@ console.log('script end')
 
 ## 事件循环的其他应用
 
-### 1 拆分CPU过载任务
+### 1 拆分 CPU 过载任务
 
 假设我们有一个 CPU 过载任务。
 
@@ -281,7 +276,6 @@ function count() {
 count();
 ```
 
-
 浏览器甚至可能会显示一个“脚本执行时间过长”的警告。
 
 让我们使用嵌套的 `setTimeout` 调用来拆分这个任务：
@@ -315,7 +309,6 @@ function count() {
 
 count();
 ```
-
 
 现在，浏览器界面在“计数”过程中可以正常使用。
 
@@ -367,7 +360,6 @@ function count() {
 count();
 ```
 
-
 现在，当我们开始调用 `count()` 时，会看到我们需要对 `count()` 进行更多调用，我们就会在工作前立即安排（schedule）它。
 
 如果你运行它，你很容易注意到它花费的时间明显减少了。
@@ -377,7 +369,6 @@ count();
 这很简单：你应该还记得，多个嵌套的 `setTimeout` 调用在浏览器中的最小延迟为 4ms。即使我们设置了 `0`，但还是 `4ms`（或者更久一些）。所以我们安排（schedule）得越早，运行速度也就越快。
 
 最后，我们将一个繁重的任务拆分成了几部分，现在它不会阻塞用户界面了。而且其总耗时并不会长很多。
-
 
 ### 2 进度指示
 
@@ -404,10 +395,9 @@ count();
 
   }
 
-  count(); 
+  count();
   </script>
 ```
-
 
 ……但是我们也可能想在任务执行期间展示一些东西，例如进度条。
 
@@ -440,16 +430,15 @@ count();
 
   }
 
-  count(); 
+  count();
   </script>
 ```
 
-
 现在 `div` 显示了 `i` 的值的增长，这就是进度条的一种
 
-## node 和 浏览器 eventLoop的主要区别
+## node 和 浏览器 eventLoop 的主要区别
 
-两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的。
+两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而 nodejs 中的微任务是在不同阶段之间执行的。
 
 ## 总结
 
@@ -459,32 +448,26 @@ count();
 
 3. 微任务队列中创建的微任务会被添加到微任务队列的尾端;
 
-
 4. 只要微任务队列中还有任务，宏任务队列就只会等待微任务队列执行完毕后再执行;
 
-5. 只有运行完await语句，才把await语句后面的全部代码加入到微任务行列;
+5. 只有运行完 await 语句，才把 await 语句后面的全部代码加入到微任务行列;
 
-6. 在遇到await promise时，必须等await promise 函数执行完毕才能对await语句后面的全部代码加入到微任务中;
-  o在等待 await Promise.then微任务时:
+6. 在遇到 await promise 时，必须等 await promise 函数执行完毕才能对 await 语句后面的全部代码加入到微任务中;
+   o 在等待 await Promise.then 微任务时:
 
 &ensp;&ensp;&ensp;&ensp;- 运行其他同步代码;
 
 &ensp;&ensp;&ensp;&ensp;- 等到同步代码运行完，开始运行 await promise.then 微任务;
 
-&ensp;&ensp;&ensp;&ensp;- await promise.then微任务完成后，把await语句后面的全部代码加入到微任务行列;
-
+&ensp;&ensp;&ensp;&ensp;- await promise.then 微任务完成后，把 await 语句后面的全部代码加入到微任务行列;
 
 ## 参考资料
 
 [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop)
 
-
 [https://zh.javascript.info/event-loop](https://zh.javascript.info/event-loop)
-
 
 [http://www.ruanyifeng.com/blog/2013/10/event_loop.html](http://www.ruanyifeng.com/blog/2013/10/event_loop.html)
 
-
 [https://juejin.cn/post/6844903512845860872](https://juejin.cn/post/6844903512845860872)
-
-
+`````
