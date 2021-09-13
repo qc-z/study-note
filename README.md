@@ -4,8 +4,9 @@
 
 ## vue3
 
-1. [vue3 流程](./vue3源码/vue3流程.md)
-2. [vue3 学习记录](./vue3源码/vue3学习记录.md)
+1. [vue3 运行流程](./vue3源码/vue3流程.md)
+2. [vue3 名词解释](./vue3源码/vue3学习记录.md)
+3. [搭建工程(ts+jest)](./vue3源码/mini-vue工程搭建.md)
 
 ## js 面试题
 
