@@ -1,0 +1,8 @@
+思路：
+1 传进去一个fn，返回一个ref (使用class里面value来实现)
+2 class的实现，get方法拦截
+3 缓存机制(用一个变量制造flag，如果没有重新set的话，第一次调用完就设置为false不再执行值的读取)
+先把effect收集，带上schemal(把变量flag变为true),
+因为第一次computed的时候只是读取，没有触发set的方法所以不会走trigger
+4 依赖发生变化，因为初始化的时候已经进行依赖收集，schemal已经带进去了，这时会触发schemal，因为有schemal就不会执行run，
+再次读取computed的时候就触发他的get value的方法，变量flag现在已经在schemal中变为true，这时手动调用effect的run方法就会重新获取新的值
